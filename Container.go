@@ -2,15 +2,16 @@ package container
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 	"syscall"
 
-	"github.com/Chara-X/netns"
 	"github.com/otiai10/copy"
 	"github.com/vishvananda/netlink"
+	"github.com/vishvananda/netns"
 )
 
 type Container struct {
@@ -41,13 +42,17 @@ func (c *Container) Start() chan error {
 	}()
 	return err
 }
-func (c *Container) Connect(link, addr string) {
-	var ns, cns = netns.New(os.Getpid()), netns.New(c.cmd.Process.Pid)
+func (c *Container) Connect(name string) netlink.Link {
+	var link = &netlink.Veth{LinkAttrs: netlink.LinkAttrs{Name: "eth0"}, PeerName: name}
+	netlink.LinkAdd(link)
+	netlink.LinkSetUp(link)
+	var ns, _ = netns.GetFromPid(c.cmd.Process.Pid)
 	defer ns.Close()
-	defer cns.Close()
-	cns.LinkAdd(&netlink.Veth{LinkAttrs: netlink.LinkAttrs{Name: "eth0"}, PeerName: link})
-	cns.LinkSetNs(link, ns)
-	ns.AddrAdd(link, addr)
+	netlink.LinkSetNsFd(link, int(ns))
+	return link
+}
+func (c *Container) Copy(from string, to string) {
+	fmt.Println(copy.Copy(from, filepath.Join(c.cmd.Args[2], to), copy.Options{AddPermission: 0777}))
 }
 func (c *Container) Exec(cmd string) {
 	c.w.WriteString(cmd + "\n")
