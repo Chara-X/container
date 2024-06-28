@@ -2,7 +2,6 @@ package container
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -52,7 +51,7 @@ func (c *Container) Connect(name string) netlink.Link {
 	return link
 }
 func (c *Container) Copy(from string, to string) {
-	fmt.Println(copy.Copy(from, filepath.Join(c.cmd.Args[2], to), copy.Options{AddPermission: 0777}))
+	copy.Copy(from, filepath.Join(c.cmd.Args[2], to), copy.Options{AddPermission: 0777})
 }
 func (c *Container) Exec(cmd string) {
 	c.w.WriteString(cmd + "\n")

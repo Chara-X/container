@@ -9,8 +9,7 @@ import (
 	"github.com/Chara-X/util/archive/tar"
 )
 
-func Install(from string) {
-	var to = strings.TrimSuffix(from, ".tar")
+func Install(from string, to string) {
 	tar.Extract(from, to)
 	var r, _ = os.Open(to + "/manifest.json")
 	var w, _ = os.Create(to + "/lowerdir")

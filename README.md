@@ -2,7 +2,7 @@
 
 ```go
 func ExampleContainer() {
-	// container.Install("./ubuntu.tar")
+	// container.Install("./ubuntu.tar", "ubuntu")
 	var con = container.New("./ubuntu")
 	defer con.Stop()
 	con.Start()
