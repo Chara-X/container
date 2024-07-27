@@ -4,8 +4,6 @@ go 1.22.2
 
 replace github.com/Chara-X/util => ../util
 
-replace github.com/Chara-X/netns => ../netns
-
 require (
 	github.com/Chara-X/util v0.0.0-00010101000000-000000000000
 	github.com/vishvananda/netlink v1.1.0
