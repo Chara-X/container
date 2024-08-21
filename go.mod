@@ -6,6 +6,7 @@ replace github.com/Chara-X/util => ../util
 
 require (
 	github.com/Chara-X/util v0.0.0-00010101000000-000000000000
+	github.com/creack/pty v1.1.23
 	github.com/vishvananda/netlink v1.1.0
 )
 

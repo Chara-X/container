@@ -2,14 +2,13 @@
 
 ```go
 func ExampleContainer() {
-	// container.Install("./ubuntu.tar", "ubuntu")
+	// container.Install("./ubuntu.tar.gz", "./ubuntu")
 	var con = container.New("./ubuntu")
-	defer con.Stop()
-	con.Start()
+	defer con.Kill()
 	// var l = con.Connect("veth0")
-	// Config ...
+	// Config conn ...
 	con.Copy("./bag", "/etc/bag")
-	con.Exec("sh")
+	con.Exec()
 	con.Commit("./mc")
 }
 ```

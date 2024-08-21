@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"os"
 	"os/exec"
 	"syscall"
@@ -17,12 +16,7 @@ func main() {
 	}
 	syscall.Chroot(target)
 	os.Chdir("/")
-	var r, w = os.NewFile(3, "pipe"), os.NewFile(4, "pipe")
-	for scanner := bufio.NewScanner(r); scanner.Scan(); w.WriteString("\n") {
-		var cmd = exec.Command("sh", "-c", scanner.Text())
-		cmd.Stdin = os.Stdin
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
-		cmd.Run()
-	}
+	var cmd = exec.Command("sh")
+	cmd.Stdin, cmd.Stdout, cmd.Stderr = os.Stdin, os.Stdout, os.Stderr
+	cmd.Run()
 }
