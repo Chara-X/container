@@ -13,7 +13,7 @@ func ExampleContainer() {
 }
 ```
 
-## References
+## Reference
 
 [Containers the hard way: Gocker: A mini Docker written in Go](https://unixism.net/2020/06/containers-the-hard-way-gocker-a-mini-docker-written-in-go)
 
